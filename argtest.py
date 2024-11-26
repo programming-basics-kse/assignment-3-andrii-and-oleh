@@ -6,11 +6,11 @@ subparsers = parser.add_subparsers(dest="operation")
 
 # Create a sub-parser for the 'add' operation
 add_parser = subparsers.add_parser('add', help='Addition')
-add_parser.add_argument('numbers', nargs='+', type=int, help='Numbers to add')
+add_parser.add_argument('numbers', type=int, help='Numbers to add')
 
 # Create a sub-parser for the 'subtract' operation
 subtract_parser = subparsers.add_parser('subtract', help='Subtraction')
-subtract_parser.add_argument('numbers', nargs='+', type=int, help='Numbers to subtract')
+subtract_parser.add_argument('numbers', type=int, help='Numbers to subtract')
 
 #add argument to parser (-- means optional arguments, required type, help message for user)
 parser.add_argument("-n", "--num", type=int, help="enter number")
