@@ -2,47 +2,57 @@ import argparse, sys
 
 
 def total():
-    with open(args.file, 'r') as file:
-        next(file)
-        countries = {}
-        for row in file:
-            row = row.split('\t')
-            row[-1] = row[-1][:-1]
-            if year and row[9] == year:
-                if row[6] not in countries:
-                    countries[row[6]] = {'Bronze': 0, 'Silver': 0, 'Gold': 0}
-                if row[-1] in countries[row[6]]:
-                    countries[row[6]][row[-1]] += 1
-        print(countries)
+    try:
+        if int(tot) > 1894 or int(tot) > 2020 or int(tot) % 2 != 0:
+            print('Olimpiad didnt happen in this year unfortunatly.')
+        with open(args.file, 'r') as file:
+            next(file)
+            countries = {}
+            for row in file:
+                row = row.split('\t')
+                row[-1] = row[-1][:-1]
+                if year and row[9] == year:
+                    if row[6] not in countries:
+                        countries[row[6]] = {'Bronze': 0, 'Silver': 0, 'Gold': 0}
+                    if row[-1] in countries[row[6]]:
+                        countries[row[6]][row[-1]] += 1
+            print(countries)
+    except FileNotFoundError:
+        print("no such file")
 
 
 def over(overall):
-    with open(args.file, 'r') as file:
-        next(file)
-        countries = {}
-        for state in overall:
-            countries[state] = {}
-        for row in file:
-            row = row.split('\t')
-            row[-1] = row[-1][:-1]
-            if row[6].lower() in countries:
-                if not (row[9] in countries[row[6].lower()]):
-                    countries[row[6].lower()][row[9]] = 0
-                if row[-1] != 'NA':
-                    countries[row[6].lower()][row[9]] += 1
-            elif row[7].lower() in countries:
-                if not (row[9] in countries[row[7].lower()]):
-                    countries[row[7].lower()][row[9]] = 0
-                if row[-1] != 'NA':
-                    countries[row[7].lower()][row[9]] += 1
-        counter = 0
-        max = None
-        for state in countries:
-            for year in countries[state]:
-                if countries[state][year] > counter:
-                    max = year
-                    counter = countries[state][year]
-            print(f"{state.capitalize()}: best year was {max} with {countries[state][max]} medals")
+    try:
+        with open(args.file, 'r') as file:
+            next(file)
+            countries = {}
+            for state in overall:
+                countries[state] = {}
+            for row in file:
+                row = row.split('\t')
+                row[-1] = row[-1][:-1]
+                if row[6].lower() in countries:
+                    if not (row[9] in countries[row[6].lower()]):
+                        countries[row[6].lower()][row[9]] = 0
+                    if row[-1] != 'NA':
+                        countries[row[6].lower()][row[9]] += 1
+                elif row[7].lower() in countries:
+                    if not (row[9] in countries[row[7].lower()]):
+                        countries[row[7].lower()][row[9]] = 0
+                    if row[-1] != 'NA':
+                        countries[row[7].lower()][row[9]] += 1
+            counter = 0
+            max = None
+            for state in countries:
+                for year in countries[state]:
+                    if countries[state][year] > counter:
+                        max = year
+                        counter = countries[state][year]
+                print(f"{state.capitalize()}: best year was {max} with {countries[state][max]} medals")
+    except FileNotFoundError:
+        print("there is no such file")
+    except KeyError:
+        print("there is no such country")
 
 
 def medals_command(args):
@@ -81,6 +91,8 @@ def medals_command(args):
     if output_file != None:
         with open(output_file, "w") as datafile:
             datafile.write("\n".join(medalists))
+
+
 def interactive_command(args):
     while True:
         try:
@@ -117,6 +129,17 @@ def interactive_command(args):
                 gold += country_stat[i]["Gold"]
             print(
                 f"average: bronze - {round(bronze / len(country_stat))}, silver - {round(silver / len(country_stat))}, gold - {round(gold / len(country_stat))}")
+            if output_file != None:
+                with open(output_file, "w") as datafile:
+                    datafile.write(f"first participation of {country.capitalize()} - {first_olympiad[0]}\n")
+                    datafile.write(f"Olympiad took place in {olympiads[0]}")
+                    datafile.write("\n")
+                    datafile.write(
+                        f"{medals_each_year[0][0]} was the best for {country.capitalize()}. It has {sum(medals_each_year[0][1].values())} medalists.\n")
+                    datafile.write(
+                        f"{medals_each_year[-1][0]} was the worst for {country.capitalize()}. It has {sum(medals_each_year[-1][1].values())} medalists.\n")
+                    datafile.write(
+                        f"average: bronze - {round(bronze / len(country_stat))}, silver - {round(silver / len(country_stat))}, gold - {round(gold / len(country_stat))}")
         except IndexError:
             pass
 
@@ -126,7 +149,8 @@ parser = argparse.ArgumentParser(description=' This is a program to work with da
                                              ' team members. ')
 
 parser.add_argument("file", help="eneter a name of data file")
-parser.add_argument("-med", "--medals", nargs=2, help="enter one country and a year of olympiad to get medalists from this country")
+parser.add_argument("-med", "--medals", nargs=2,
+                    help="enter one country and a year of olympiad to get medalists from this country")
 parser.add_argument("-inter", "--interactive", help="etner start to go into interactive mode")
 parser.add_argument("-out", "--output", help="name of output file")
 parser.add_argument('-t', '--total', type=str, help='Enter an integer number between 1896 and 2020.')
@@ -138,6 +162,7 @@ output_file = args.output
 data_file = args.file
 year = args.total
 overall = args.overall
+tot = args.total
 
 if args.medals != None:
     medals_command(args)
