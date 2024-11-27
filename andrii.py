@@ -1,5 +1,4 @@
 import argparse
-import matplotlib.pyplot as plt
 
 
 def medals_command(args):
@@ -61,10 +60,8 @@ def interactive_command(args):
             print(f"first participation of {country.capitalize()} - {first_olympiad[0]}")
             print(f"Olympiad took place in {olympiads[0]}")
             medals_each_year = sorted(country_stat.items(), key=lambda item: sum(item[1].values()), reverse=True)
-            print(
-                f"{medals_each_year[0][0]} was the best for {country.capitalize()}. It has {sum(medals_each_year[0][1].values())} medalists.")
-            print(
-                f"{medals_each_year[-1][0]} was the worst for {country.capitalize()}. It has {sum(medals_each_year[-1][1].values())} medalists.")
+            print(f"{medals_each_year[0][0]} was the best for {country.capitalize()}. It has {sum(medals_each_year[0][1].values())} medalists.")
+            print(f"{medals_each_year[-1][0]} was the worst for {country.capitalize()}. It has {sum(medals_each_year[-1][1].values())} medalists.")
             bronze = 0
             silver = 0
             gold = 0
@@ -72,13 +69,12 @@ def interactive_command(args):
                 bronze += country_stat[i]["Bronze"]
                 silver += country_stat[i]["Silver"]
                 gold += country_stat[i]["Gold"]
-            print(
-                f"average: bronze - {round(bronze / len(country_stat))}, silver - {round(silver / len(country_stat))}, gold - {round(gold / len(country_stat))}")
+            print(f"average: bronze - {round(bronze/len(country_stat))}, silver - {round(silver/len(country_stat))}, gold - {round(gold/len(country_stat))}")
         except IndexError:
             pass
 
 
-parser = argparse.ArgumentParser(description='this program analyzes data about olympics')
+parser = argparse.ArgumentParser(description='Andrii')
 
 parser.add_argument("file")
 parser.add_argument("-medals", "--medals", nargs=2,
