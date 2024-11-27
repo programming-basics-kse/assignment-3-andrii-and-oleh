@@ -78,7 +78,7 @@ parser = argparse.ArgumentParser(description='Andrii')
 
 parser.add_argument("file")
 parser.add_argument("-medals", "--medals", nargs=2,
-                    help="enter one country and a yer of olympiad to get medalists from this country")
+                    help="enter one country and a year of olympiad to get medalists from this country")
 parser.add_argument("-interactive", "--interactive", help="etner start to go into interactive mode")
 parser.add_argument("-output", "--output")
 
