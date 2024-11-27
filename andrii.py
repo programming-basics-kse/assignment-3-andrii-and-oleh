@@ -77,9 +77,9 @@ def interactive_command(args):
 parser = argparse.ArgumentParser(description='Andrii')
 
 parser.add_argument("file")
-parser.add_argument("-medals", "--medals", nargs=2)
-parser.add_argument("-interactive", "--interactive")
-parser.add_argument("-output", "--output")
+parser.add_argument("-med", "--medals", nargs=2)
+parser.add_argument("-inter", "--interactive")
+parser.add_argument("-out", "--output")
 
 args = parser.parse_args()
 

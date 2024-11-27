@@ -57,9 +57,9 @@ parser.add_argument('-o', '--overall', nargs='+', help='Enter a list(or one) of 
 args = parser.parse_args()
 year = args.total
 overall = args.overall
-overall = [state.lower() for state in overall]
 
 if not args.total == None:
     total()
 if not args.overall == None:
+    overall = [state.lower() for state in overall]
     over(overall)
