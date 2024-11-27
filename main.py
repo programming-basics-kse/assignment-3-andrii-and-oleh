@@ -1,4 +1,16 @@
 import argparse, sys
+import matplotlib.pyplot as plt
+
+
+def make_graph(medals):
+    y = []
+    x = []
+    for i in range(len(medals)):
+        y.append(sum(medals[i][1].values()))
+        x.append(medals[i][0])
+    plt.plot(x, y)
+    plt.xticks(rotation=90)
+    plt.show()
 
 
 def total():
@@ -140,6 +152,7 @@ def interactive_command(args):
                         f"{medals_each_year[-1][0]} was the worst for {country.capitalize()}. It has {sum(medals_each_year[-1][1].values())} medalists.\n")
                     datafile.write(
                         f"average: bronze - {round(bronze / len(country_stat))}, silver - {round(silver / len(country_stat))}, gold - {round(gold / len(country_stat))}")
+            make_graph(medals_each_year)
         except IndexError:
             pass
 

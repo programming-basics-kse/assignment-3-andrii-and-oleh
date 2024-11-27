@@ -1,5 +1,15 @@
-import argparse
+import argparse, sys
+import matplotlib.pyplot as plt
 
+def make_graph(medals):
+    y = []
+    x = []
+    for i in range(len(medals)):
+        y.append(sum(medals[i][1].values()))
+        x.append(medals[i][0])
+    plt.plot(x, y)
+    plt.xticks(rotation=90)
+    plt.show()
 
 def medals_command(args):
     country = args.medals[0]
@@ -45,6 +55,8 @@ def interactive_command(args):
             country = input("Please, enter your country: ")
             country_stat = {}
             olympiads = []
+            if country == "exit":
+                sys.exit()
             with open(args.file, "r") as datafile:
                 next(datafile)
                 for line in datafile:
@@ -70,6 +82,7 @@ def interactive_command(args):
                 silver += country_stat[i]["Silver"]
                 gold += country_stat[i]["Gold"]
             print(f"average: bronze - {round(bronze/len(country_stat))}, silver - {round(silver/len(country_stat))}, gold - {round(gold/len(country_stat))}")
+            make_graph(medals_each_year)
         except IndexError:
             pass
 
