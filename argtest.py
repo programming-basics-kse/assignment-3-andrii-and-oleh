@@ -1,4 +1,4 @@
-import argparse
+'''import argparse
 
 parser = argparse.ArgumentParser(description="description123")
 
@@ -26,4 +26,23 @@ elif args.operation == 'subtract':
 
 print(f"Number - {result}")
 #print(f"Word - {word}")
+'''
 
+countries = {
+    'Ukraine': {
+        '1999': 2,
+        '1998': 3,
+        '2000': 0
+    },
+    'Astana': {
+        '1999': 1,
+        '1998': 2,
+        '2000': 0
+    }
+}
+counter = 0
+for state in countries:
+    for year in countries[state]:
+        if countries[state][year] > counter:
+            max = year
+    print(f"{state}: best year was {max} with {countries[state][max]} medals")
