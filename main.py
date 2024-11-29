@@ -28,7 +28,11 @@ def total():
                         countries[row[6]] = {'Bronze': 0, 'Silver': 0, 'Gold': 0}
                     if row[-1] in countries[row[6]]:
                         countries[row[6]][row[-1]] += 1
-            print(countries)
+            for key in countries:
+                print(f"{key} - ", end="")
+                for key1 in countries[key]:
+                    print(f"{key1}: {countries[key][key1]}", end="; ")
+                print()
     except FileNotFoundError:
         print("no such file")
 
@@ -83,13 +87,14 @@ def medals_command(args):
         # all years are even
         for line in datafile:
             line = line.split("\t")
-            line[-1] = line[-1][:-1]
             if (country.capitalize() == line[6] or country.upper() == line[7]) and year == line[9] and line[
-                -1] in medals:
-                print(", ".join(line[1:]))
+                -1][:-1] in medals:
                 medalists.append(", ".join(line[1:]))
-                medals[line[-1]] += 1
+                medals[line[-1][:-1]] += 1
                 country_in_list = True
+            if len(medalists) == 10:
+                break
+
         if int(year) < 1896 and not int(year) % 2:
             print("there weren't any olympiad this year")
             print("try entering even number greater than 1896")
@@ -97,8 +102,9 @@ def medals_command(args):
             print("There is no such country in dataset or it didn't participated")
         elif len(medalists) < 10:
             print("There are less then 10 medalists")
-
-        print(f"Bronze: {medals["Bronze"]}, Silver: {medals['Silver']}, Gold: {medals['Gold']}")
+        else:
+            print(*medalists)
+            print(f"Bronze: {medals["Bronze"]}, Silver: {medals['Silver']}, Gold: {medals['Gold']}")
 
     if output_file != None:
         with open(output_file, "w") as datafile:
